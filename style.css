@@ -48,7 +48,9 @@ h2{font:700 27px/1.2 "Source Serif 4",Georgia,serif;color:var(--nv);margin:0 0 6
 .programme-actions button:hover{border-color:var(--a1);color:var(--a1)}
 .programme-actions button:focus-visible{outline:2px solid var(--a3);outline-offset:2px}
 .tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto}
+.week-hint{margin:0 0 12px;padding:10px 14px;border-inline-start:4px solid var(--a1);border-radius:8px;background:color-mix(in srgb,var(--a1) 8%,var(--sf));color:var(--tx);font-size:14px;font-weight:500}
 .tabs button{border:1px solid var(--bd);background:var(--sf);color:var(--mu);font:600 13px "IBM Plex Sans",sans-serif;padding:8px 16px;border-radius:9px;cursor:pointer}
+.tabs button:hover{border-color:var(--a1);color:var(--nv)}
 .tabs .on{background:var(--nv);color:var(--sf);border-color:var(--nv)}
 .pn{background:var(--sf);border:1px solid var(--bd);border-radius:14px;overflow:hidden;box-shadow:var(--sh)}
 .ph{padding:20px 22px;border-left:6px solid var(--c)}.ph small{color:var(--c);font-weight:600}

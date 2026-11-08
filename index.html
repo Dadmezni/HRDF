@@ -30,7 +30,8 @@
 <section class="s" id="programme"><h2>Daily programme</h2><p class="sub">Times follow the time zone selected at the top of the page.</p>
 <div class="programme-actions"><button id="ics" type="button">Download calendar (.ics)</button><button id="print" type="button">Print / Save as PDF</button></div>
 <div id="print-programme" class="print-only"></div>
-<div class="md"><div class="tabs" id="tabs"></div><div class="pn" id="pn"></div></div></section>
+<p id="week-hint" class="week-hint">Select one of the week buttons below (for example, Week 2) to view its daily sessions and details.</p>
+<div class="md"><div class="tabs" id="tabs" role="group" aria-describedby="week-hint"></div><div class="pn" id="pn"></div></div></section>
 
 <section class="s" id="ceremonies"><h2>Launch and closing ceremonies</h2><p class="sub">Both take place on Google Meet and start at 11:00 Tripoli time.</p><div class="cg" id="cer"></div></section>
 
@@ -44,7 +45,7 @@
 <script>
 const $=s=>document.querySelector(s),A=["--a0","--a1","--a2","--a3"];
 let lang="en";try{lang=localStorage.getItem("lg")=="ar"?"ar":"en"}catch(e){}
-const X={week:["Week","الأسبوع"],view:["View week","عرض الأسبوع"],prev:["Previous week","الأسبوع السابق"],nxt:["Next week","الأسبوع التالي"],partial:["(partial)","(جزئي)"],phase:["Phase","المرحلة"],dels:["Deliverables","المخرجات"],status:["Status","الحالة"],done:["Completed","منتهٍ"],now:["In progress","جارٍ"],up:["Upcoming","قادم"],deliv:["Deliverable","المخرج"],ref:["Ref.","المرجع"],axis:["Axis","المحور"],due:["Due","الموعد"],nosess:["No session","بدون جلسة"],intl:["Internal work","عمل داخلي"],min:["min","د"],next:["Next session:","الجلسة القادمة:"],alldone:["All scheduled sessions have taken place.","انتهت جميع الجلسات المبرمجة."],ics:["Download calendar (.ics)","تنزيل التقويم (.ics)"],print:["Print / Save as PDF","طباعة / حفظ بصيغة PDF"],printTitle:["Training programme","برنامج التكوين"],tri:["Tripoli time","بتوقيت طرابلس"],tun:["Tunis time","بتوقيت تونس"],ax:[["Launch","Axis 1","Axis 2","Axis 3"],["الإطلاق","المحور 1","المحور 2","المحور 3"]],ph:[["Launch","Axis 1: Technical Mechanisms","Axis 2: PMO and Governance","Axis 3: Capacity Building"],["الإطلاق","المحور 1: الآليات الفنية","المحور 2: الـ PMO والحوكمة","المحور 3: بناء القدرات"]]};
+const X={week:["Week","الأسبوع"],view:["View week","عرض الأسبوع"],prev:["Previous week","الأسبوع السابق"],nxt:["Next week","الأسبوع التالي"],partial:["(partial)","(جزئي)"],phase:["Phase","المرحلة"],dels:["Deliverables","المخرجات"],status:["Status","الحالة"],done:["Completed","منتهٍ"],now:["In progress","جارٍ"],up:["Upcoming","قادم"],deliv:["Deliverable","المخرج"],ref:["Ref.","المرجع"],axis:["Axis","المحور"],due:["Due","الموعد"],nosess:["No session","بدون جلسة"],intl:["Internal work","عمل داخلي"],min:["min","د"],next:["Next session:","الجلسة القادمة:"],alldone:["All scheduled sessions have taken place.","انتهت جميع الجلسات المبرمجة."],ics:["Download calendar (.ics)","تنزيل التقويم (.ics)"],print:["Print / Save as PDF","طباعة / حفظ بصيغة PDF"],printTitle:["Training programme","برنامج التكوين"],weekHint:["Select one of the week buttons below (for example, Week 2) to view its daily sessions and details.","اختر أحد أزرار الأسابيع أدناه (مثل الأسبوع 2) لعرض جلساته وتفاصيله اليومية."],tri:["Tripoli time","بتوقيت طرابلس"],tun:["Tunis time","بتوقيت تونس"],ax:[["Launch","Axis 1","Axis 2","Axis 3"],["الإطلاق","المحور 1","المحور 2","المحور 3"]],ph:[["Launch","Axis 1: Technical Mechanisms","Axis 2: PMO and Governance","Axis 3: Capacity Building"],["الإطلاق","المحور 1: الآليات الفنية","المحور 2: الـ PMO والحوكمة","المحور 3: بناء القدرات"]]};
 const tr=k=>X[k][lang=="ar"?1:0];
 const D=(i,o)=>new Date(i+"T00:00:00").toLocaleDateString(lang=="ar"?"ar-LY-u-nu-latn":"en-GB",o);
 const M=t=>+t.slice(0,2)*60+ +t.slice(3);
@@ -142,7 +143,7 @@ const AE=["نظرة عامة","البرنامج اليومي","حفلا الإط
 "ملاحظات","الجمعات 06/11 و13/11 و20/11 و27/11 و04/12 مخصصة للعمل الداخلي للخبراء.","ينتهي المشروع يوم الخميس 10 ديسمبر 2026.","في حال الإعلان الرسمي عن يوم عطلة استثنائي، تُنقل الجلسة المعنية إلى يوم العمل الموالي بعد موافقة الصندوق.",
 "تنفيذ شركة Risk Management لفائدة صندوق تنمية الموارد البشرية، بالشراكة مع Super Novae وحكومة المملكة المتحدة (FCDO)."];
 function SL(l){lang=l;const a=l=="ar";try{localStorage.setItem("lg",l)}catch(e){}
-document.documentElement.lang=l;document.documentElement.dir=a?"rtl":"ltr";$("#ics").textContent=tr("ics");$("#print").textContent=tr("print");
+document.documentElement.lang=l;document.documentElement.dir=a?"rtl":"ltr";$("#ics").textContent=tr("ics");$("#print").textContent=tr("print");$("#week-hint").textContent=tr("weekHint");
 E.forEach((n,i)=>n.nodeValue=a?AE[i]:EN[i]);
 W.forEach((w,i)=>{const z=a?AW[i]:W0[i];w.k=z.k;w.t=z.t;w.o=z.o;w.d.forEach((d,j)=>{d[1]=z.d[j][0];d[4]=z.d[j][1]})});
 C.forEach((c,i)=>{c[0]=a?AC[i][0]:C0[i][0];c[4].forEach((x,j)=>x[2]=a?AC[i][1][j]:C0[i][1][j])});
@@ -164,7 +165,7 @@ $("#ov").innerHTML="<div class=rm><div>"
 +`<div class=rr><span class=l>${tr("phase")}</span>${sp.map(q=>`<button class=p data-w=${q[0]} style="grid-column:${q[0]+2}/${q[1]+2};--c:var(${A[q[2]]})">${tr("ph")[q[2]]}</button>`).join("")}</div>`
 +`<div class=rr><span class=l>${tr("dels")}</span>${W.map(w=>`<div style="--c:var(${A[w.a]})">${w.x.map(x=>`<span class=chip>${x}</span>`).join("")}</div>`).join("")}</div>`
 +`<div class=rr><span class=l>${tr("status")}</span>${W.map(w=>{const[a,c]=st(w);return `<div><em class="b ${c}" style="float:none">${tr(c)}</em></div>`}).join("")}</div></div></div>`}
-function P(){const w=W[wk];$("#tabs").innerHTML=W.map((x,i)=>`<button class="${i==wk?"on":""}" style="--c:var(${A[x.a]})" data-w="${i}"><b>${tr("week")} ${i+1}</b><small>${rg(x)}<br>${x.t}</small></button>`).join("");
+function P(){const w=W[wk];$("#tabs").innerHTML=W.map((x,i)=>`<button type="button" class="${i==wk?"on":""}" aria-pressed="${i==wk}" style="--c:var(${A[x.a]})" data-w="${i}"><b>${tr("week")} ${i+1}</b><small>${rg(x)}<br>${x.t}</small></button>`).join("");
 $("#pn").style.setProperty("--c","var("+A[w.a]+")");
 $("#pn").innerHTML=`<div class=ph><small>${w.k}, ${tr("week")} ${wk+1}, ${rg(w)}</small><h3>${w.t}</h3><p>${w.o}</p><div style="margin-top:10px">${w.x.map(x=>`<span class=chip>${tr("deliv")} ${x}</span>`).join("")}</div></div>`+w.d.map(d=>`<div class="dy${d[2]?"":" int"}"><div class=dt><b>${+d[0].slice(8)}</b>${D(d[0],{weekday:"short",month:"short"})}</div><div class=tm>${d[2]?R(d[2],d[3])+"<small>"+Z()+"</small><span class=tag>Google Meet</span>":tr("nosess")+"<small>"+tr("intl")+"</small>"}</div><div><h4>${d[1]}</h4><ul>${d[4].map(b=>`<li>${b}</li>`).join("")}</ul></div></div>`).join("")+`<div class=pf>${wk?`<button data-w=${wk-1}>${tr("prev")}</button>`:"<span></span>"}${wk<5?`<button data-w=${wk+1}>${tr("nxt")}</button>`:""}</div>`}
 function printProgramme(){
