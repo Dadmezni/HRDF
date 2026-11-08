@@ -28,6 +28,8 @@
 <div class="ov" id="ov"></div></section>
 
 <section class="s" id="programme"><h2>Daily programme</h2><p class="sub">Times follow the time zone selected at the top of the page.</p>
+<div class="programme-actions"><button id="ics" type="button">Download calendar (.ics)</button><button id="print" type="button">Print / Save as PDF</button></div>
+<div id="print-programme" class="print-only"></div>
 <div class="md"><div class="tabs" id="tabs"></div><div class="pn" id="pn"></div></div></section>
 
 <section class="s" id="ceremonies"><h2>Launch and closing ceremonies</h2><p class="sub">Both take place on Google Meet and start at 11:00 Tripoli time.</p><div class="cg" id="cer"></div></section>
@@ -42,7 +44,7 @@
 <script>
 const $=s=>document.querySelector(s),A=["--a0","--a1","--a2","--a3"];
 let lang="en";try{lang=localStorage.getItem("lg")=="ar"?"ar":"en"}catch(e){}
-const X={week:["Week","الأسبوع"],view:["View week","عرض الأسبوع"],prev:["Previous week","الأسبوع السابق"],nxt:["Next week","الأسبوع التالي"],partial:["(partial)","(جزئي)"],phase:["Phase","المرحلة"],dels:["Deliverables","المخرجات"],status:["Status","الحالة"],done:["Completed","منتهٍ"],now:["In progress","جارٍ"],up:["Upcoming","قادم"],deliv:["Deliverable","المخرج"],ref:["Ref.","المرجع"],axis:["Axis","المحور"],due:["Due","الموعد"],nosess:["No session","بدون جلسة"],intl:["Internal work","عمل داخلي"],min:["min","د"],next:["Next session:","الجلسة القادمة:"],alldone:["All scheduled sessions have taken place.","انتهت جميع الجلسات المبرمجة."],tri:["Tripoli time","بتوقيت طرابلس"],tun:["Tunis time","بتوقيت تونس"],ax:[["Launch","Axis 1","Axis 2","Axis 3"],["الإطلاق","المحور 1","المحور 2","المحور 3"]],ph:[["Launch","Axis 1: Technical Mechanisms","Axis 2: PMO and Governance","Axis 3: Capacity Building"],["الإطلاق","المحور 1: الآليات الفنية","المحور 2: الـ PMO والحوكمة","المحور 3: بناء القدرات"]]};
+const X={week:["Week","الأسبوع"],view:["View week","عرض الأسبوع"],prev:["Previous week","الأسبوع السابق"],nxt:["Next week","الأسبوع التالي"],partial:["(partial)","(جزئي)"],phase:["Phase","المرحلة"],dels:["Deliverables","المخرجات"],status:["Status","الحالة"],done:["Completed","منتهٍ"],now:["In progress","جارٍ"],up:["Upcoming","قادم"],deliv:["Deliverable","المخرج"],ref:["Ref.","المرجع"],axis:["Axis","المحور"],due:["Due","الموعد"],nosess:["No session","بدون جلسة"],intl:["Internal work","عمل داخلي"],min:["min","د"],next:["Next session:","الجلسة القادمة:"],alldone:["All scheduled sessions have taken place.","انتهت جميع الجلسات المبرمجة."],ics:["Download calendar (.ics)","تنزيل التقويم (.ics)"],print:["Print / Save as PDF","طباعة / حفظ بصيغة PDF"],printTitle:["Training programme","برنامج التكوين"],tri:["Tripoli time","بتوقيت طرابلس"],tun:["Tunis time","بتوقيت تونس"],ax:[["Launch","Axis 1","Axis 2","Axis 3"],["الإطلاق","المحور 1","المحور 2","المحور 3"]],ph:[["Launch","Axis 1: Technical Mechanisms","Axis 2: PMO and Governance","Axis 3: Capacity Building"],["الإطلاق","المحور 1: الآليات الفنية","المحور 2: الـ PMO والحوكمة","المحور 3: بناء القدرات"]]};
 const tr=k=>X[k][lang=="ar"?1:0];
 const D=(i,o)=>new Date(i+"T00:00:00").toLocaleDateString(lang=="ar"?"ar-LY-u-nu-latn":"en-GB",o);
 const M=t=>+t.slice(0,2)*60+ +t.slice(3);
@@ -140,7 +142,7 @@ const AE=["نظرة عامة","البرنامج اليومي","حفلا الإط
 "ملاحظات","الجمعات 06/11 و13/11 و20/11 و27/11 و04/12 مخصصة للعمل الداخلي للخبراء.","ينتهي المشروع يوم الخميس 10 ديسمبر 2026.","في حال الإعلان الرسمي عن يوم عطلة استثنائي، تُنقل الجلسة المعنية إلى يوم العمل الموالي بعد موافقة الصندوق.",
 "تنفيذ شركة Risk Management لفائدة صندوق تنمية الموارد البشرية، بالشراكة مع Super Novae وحكومة المملكة المتحدة (FCDO)."];
 function SL(l){lang=l;const a=l=="ar";try{localStorage.setItem("lg",l)}catch(e){}
-document.documentElement.lang=l;document.documentElement.dir=a?"rtl":"ltr";
+document.documentElement.lang=l;document.documentElement.dir=a?"rtl":"ltr";$("#ics").textContent=tr("ics");$("#print").textContent=tr("print");
 E.forEach((n,i)=>n.nodeValue=a?AE[i]:EN[i]);
 W.forEach((w,i)=>{const z=a?AW[i]:W0[i];w.k=z.k;w.t=z.t;w.o=z.o;w.d.forEach((d,j)=>{d[1]=z.d[j][0];d[4]=z.d[j][1]})});
 C.forEach((c,i)=>{c[0]=a?AC[i][0]:C0[i][0];c[4].forEach((x,j)=>x[2]=a?AC[i][1][j]:C0[i][1][j])});
@@ -165,6 +167,34 @@ $("#ov").innerHTML="<div class=rm><div>"
 function P(){const w=W[wk];$("#tabs").innerHTML=W.map((x,i)=>`<button class="${i==wk?"on":""}" style="--c:var(${A[x.a]})" data-w="${i}"><b>${tr("week")} ${i+1}</b><small>${rg(x)}<br>${x.t}</small></button>`).join("");
 $("#pn").style.setProperty("--c","var("+A[w.a]+")");
 $("#pn").innerHTML=`<div class=ph><small>${w.k}, ${tr("week")} ${wk+1}, ${rg(w)}</small><h3>${w.t}</h3><p>${w.o}</p><div style="margin-top:10px">${w.x.map(x=>`<span class=chip>${tr("deliv")} ${x}</span>`).join("")}</div></div>`+w.d.map(d=>`<div class="dy${d[2]?"":" int"}"><div class=dt><b>${+d[0].slice(8)}</b>${D(d[0],{weekday:"short",month:"short"})}</div><div class=tm>${d[2]?R(d[2],d[3])+"<small>"+Z()+"</small><span class=tag>Google Meet</span>":tr("nosess")+"<small>"+tr("intl")+"</small>"}</div><div><h4>${d[1]}</h4><ul>${d[4].map(b=>`<li>${b}</li>`).join("")}</ul></div></div>`).join("")+`<div class=pf>${wk?`<button data-w=${wk-1}>${tr("prev")}</button>`:"<span></span>"}${wk<5?`<button data-w=${wk+1}>${tr("nxt")}</button>`:""}</div>`}
+function printProgramme(){
+ $("#print-programme").innerHTML=`<h1>${tr("printTitle")}</h1><p>${Z()} · ${tz?"UTC+1":"UTC+2"}</p>`+W.map((w,i)=>`<section class=print-week style="--c:var(${A[w.a]})"><h2>${tr("week")} ${i+1}: ${w.t}</h2><p>${w.o}</p>${w.d.map(d=>`<article class="print-day${d[2]?"":" int"}"><div class=print-date>${D(d[0],{weekday:"long",day:"numeric",month:"long",year:"numeric"})}<small>${d[2]?R(d[2],d[3])+" · "+Z():tr("intl")}</small></div><div><h3>${d[1]}</h3><ul>${d[4].map(item=>`<li>${item}</li>`).join("")}</ul></div></article>`).join("")}</section>`).join("");
+ document.body.classList.add("print-programme");window.print();
+}
+function downloadCalendar(){
+const zone=tz?"HRDF/Tunis":"HRDF/Tripoli",offset=tz?"+0100":"+0200",zoneName=tz?"CET":"EET";
+const escapeIcs=s=>String(s).replace(/\\/g,"\\\\").replace(/\r?\n/g,"\\n").replace(/([,;])/g,"\\$1");
+const foldIcs=line=>{let out="",part="",bytes=0;for(const ch of line){const cp=ch.codePointAt(0),size=cp<=127?1:cp<=2047?2:cp<=65535?3:4;if(bytes+size>75){out+=part+"\r\n ";part="";bytes=1}part+=ch;bytes+=size}return out+part};
+const now=new Date().toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
+const events=W.flatMap(w=>w.d.filter(d=>d[2]).map(d=>{
+ const start=F(M(d[2])),end=F(M(d[3]));
+ return ["BEGIN:VEVENT","UID:hrdf-"+d[0]+"-"+d[2].replace(":","")+"@hrdf-libya","DTSTAMP:"+now,
+  "DTSTART;TZID="+zone+":"+d[0].replace(/-/g,"")+"T"+start.replace(":","")+"00",
+  "DTEND;TZID="+zone+":"+d[0].replace(/-/g,"")+"T"+end.replace(":","")+"00",
+  "SUMMARY:"+escapeIcs(d[1]),"DESCRIPTION:"+escapeIcs(d[4].join("\n")),
+  "LOCATION:Google Meet","STATUS:CONFIRMED","END:VEVENT"].join("\r\n")
+})).join("\r\n");
+const calendarLines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//HRDF Libya//Training Programme//EN","CALSCALE:GREGORIAN","METHOD:PUBLISH",
+ "X-WR-CALNAME:"+escapeIcs(lang=="ar"?"برنامج HRDF ليبيا":"HRDF Libya - Training Programme"),
+ "BEGIN:VTIMEZONE","TZID:"+zone,"X-LIC-LOCATION:"+(tz?"Africa/Tunis":"Africa/Tripoli"),
+ "BEGIN:STANDARD","DTSTART:19700101T000000","TZOFFSETFROM:"+offset,"TZOFFSETTO:"+offset,"TZNAME:"+zoneName,"END:STANDARD","END:VTIMEZONE",
+ ...events.split("\r\n"),"END:VCALENDAR"].filter(Boolean);
+const calendar=calendarLines.map(foldIcs).join("\r\n")+"\r\n";
+const blob=new Blob([calendar],{type:"text/calendar;charset=utf-8"});
+const url=URL.createObjectURL(blob),link=document.createElement("a");
+link.href=url;link.download="hrdf-libya-training-programme.ics";document.body.appendChild(link);link.click();link.remove();
+setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
 function Cr(){$("#cer").innerHTML=C.map(c=>`<article class=cer><small>${D(c[1],{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</small><h3>${c[0]}</h3><p class=mu>${R(c[2],c[3])}, ${Z()}, Google Meet</p>`+c[4].map(a=>`<div class=ag><b>${F(M(a[0]))}</b><span>${a[2]}</span><i>${a[1]} ${tr("min")}</i></div>`).join("")+`</article>`).join("")}
 function N(){let n,wi;W.forEach((w,i)=>w.d.forEach(d=>{if(!n&&d[2]&&d[0]>=td){n=d;wi=i}}));
 $("#next").innerHTML=n?`<b>${tr("next")}</b> ${D(n[0],{weekday:"long",day:"numeric",month:"long"})}, ${R(n[2],n[3])} ${Z()}. ${n[1]}. <button class=go data-w=${wi}>${tr("view")}</button>`:"<b>"+tr("alldone")+"</b>"}
@@ -172,7 +202,7 @@ function U(){document.querySelectorAll("#tz button").forEach(b=>b.classList.togg
 $("#tz").onclick=e=>{const b=e.target.closest("button");if(!b)return;tz=+b.dataset.z;try{localStorage.setItem("tz",tz)}catch(x){}U()};
 ["#cal","#ov","#tabs","#next","#pn"].forEach(s=>$(s).addEventListener("click",e=>{const b=e.target.closest("[data-w]");if(b)open(+b.dataset.w)}));
 function Dl(){$("#del").innerHTML="<thead><tr><th>"+tr("ref")+"</th><th>"+tr("deliv")+"</th><th>"+tr("axis")+"</th><th>"+tr("due")+"</th></tr></thead><tbody>"+L.map(l=>`<tr style="--c:var(${A[l[3]]})"><td><b>${l[0]}</b></td><td>${l[1]}</td><td>${tr("ax")[l[3]]}</td><td>${D(l[2],{weekday:"short",day:"2-digit",month:"short"})}</td></tr>`).join("")+"</tbody>"}
-wk=Math.max(0,W.findIndex(w=>st(w)[1]=="now"));$("#lang").onclick=e=>{const b=e.target.closest("button");if(b)SL(b.dataset.l)};SL(lang);
+wk=Math.max(0,W.findIndex(w=>st(w)[1]=="now"));$("#ics").onclick=downloadCalendar;$("#print").onclick=printProgramme;window.addEventListener("afterprint",()=>document.body.classList.remove("print-programme"));$("#lang").onclick=e=>{const b=e.target.closest("button");if(b)SL(b.dataset.l)};SL(lang);
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")=="#"+e.target.id))}),{rootMargin:"-40% 0px -55% 0px"});
 document.querySelectorAll("main section").forEach(x=>io.observe(x));
 </script></body></html>
